@@ -1,5 +1,7 @@
 <!-- Dynamic social card generation -->
-{{ $font := resources.GetRemote "https://github.com/google/fonts/raw/main/ofl/firamono/FiraMono-Bold.ttf" }}
+{% comment %} {{ $font := resources.GetRemote "https://github.com/google/fonts/raw/refs/heads/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf" }} {% endcomment %}
+{{ $font := resources.Get "fonts/NotoSansSC[wght].ttf" }}
+
 {{ $fg := resources.Get "images/social_card_fg.png"}}
 {{ $bg := resources.Get "images/social_card_bg.png"}}
 
@@ -24,7 +26,10 @@
 {{ end }}
 
 {{ $date := .Date.Format (default "2006-01-02" .Site.Params.dateFormat) }}
-{{ $author := (default $.Site.Params.author.name ($.Param "author") ) }}
+{{ $author := $.Site.Params.author.name }}
+{{ if .Params.author }}
+  {{ $author = .Params.author }}
+{{ end }}
 {{ $byline := (printf "%s | %s" $author $date) }}
 
 {{ $fg = $fg.Filter (images.Text $byline (dict
